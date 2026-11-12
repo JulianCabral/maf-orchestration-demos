@@ -1,0 +1,9 @@
+agent-framework-core==1.25.0
+agent-framework-orchestrations==1.4.2
+agent-framework-foundry==1.16.1
+agent-framework-foundry-hosting==1.0.0b261106
+agent-framework-openai==1.18.1
+azure-ai-agentserver-core==2.3.1b1
+azure-ai-agentserver-responses==2.4.0
+azure-identity==1.27.0
+python-dotenv==1.2.4
