@@ -38,7 +38,7 @@ curl -s http://localhost:8088/responses -H "Content-Type: application/json" -d '
 
 ## Desplegar en Foundry (hosted agent)
 
-El workflow se expone como agente con `workflow.as_agent()` y `ResponsesHostServer` (`main.py`). Incluye `Dockerfile`, `azure.yaml` y `AGENTS.md`. Estos comandos requieren credenciales y **no se ejecutaron** en este repo:
+El workflow se expone como agente con `workflow.as_agent()` y `ResponsesHostServer` (`main.py`). Incluye `Dockerfile`, `azure.yaml` y `AGENTS.md`. Estos comandos requieren una suscripción de Azure con cuota para el modelo (ver README raíz, «Estado de verificación»):
 
 ```powershell
 cd demos/04-group-chat

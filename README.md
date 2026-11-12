@@ -49,4 +49,22 @@ Cada demo es autocontenida porque el contenedor sólo ve su carpeta `src/<agente
 
 ## Despliegue en Foundry
 
-Cada demo envuelve el workflow como agente (`workflow.as_agent()`) y lo sirve con `ResponsesHostServer` (protocolo Responses; 03 y 06 usan `resilient_background` para multi-turno y aprobaciones). Los pasos (`azd ai agent init`, `azd provision`, `azd deploy`) están en el README de cada demo; requieren credenciales y **no se ejecutaron** aquí. Versiones probadas: ver `requirements.txt`.
+Cada demo envuelve el workflow como agente (`workflow.as_agent()`) y lo sirve con `ResponsesHostServer` (protocolo Responses; 03 y 06 usan `resilient_background` para multi-turno y aprobaciones). Los pasos (`azd ai agent init`, `azd provision`, `azd deploy`) están en el README de cada demo. Versiones probadas: ver `requirements.txt`.
+
+## Estado de verificación
+
+Probado con azd 1.37.x, extensión `azure.ai.agents` y `gpt-4.1-mini` (GlobalStandard, eastus2):
+
+| Qué | Resultado |
+|---|---|
+| Las 6 demos en local con modelo real (`CHAT_CLIENT=foundry`) | OK |
+| `azd provision` + `azd deploy` + `azd ai agent invoke` de 01, 03 y 06 | OK |
+| 06 HITL hosted: pausa (`request_info`) y reanudación con `function_call_output` = `aprobar` | OK, usando `background: true` (la pausa no es reanudable en modo streaming) |
+| 02, 04 y 05 desplegadas | No probadas (misma plantilla que 01) |
+
+Hallazgos que importan al desplegar:
+
+- `azure.yaml` usa el bloque plano (sin `config:`) y el protocolo `responses` **2.0.0**; con 1.0.0 el host falla con «require a trusted user ID and call ID».
+- 03 y 06 necesitan `CheckpointStoreProvider(allowed_checkpoint_types=["types:GenericAlias"])`; sin eso el checkpoint falla al deserializar.
+- Tu usuario necesita el rol **Foundry User** (y OpenAI User) en la cuenta; la propagación de RBAC puede tardar unos minutos.
+- `agent-framework-foundry-hosting` es beta y avisa que `as_agent()` está deprecado a favor de `workflow=` con `parse_response`.

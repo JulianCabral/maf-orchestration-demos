@@ -7,39 +7,41 @@ name: maf-01-sequential
 services:
   ai-project:
     host: azure.ai.project
-    config:
-      deployments:
-        - name: gpt-5.4-mini
-          model:
-            format: OpenAI
-            name: gpt-5.4-mini
-            version: '2026-03-17'
-          sku:
-            name: GlobalStandard
-            capacity: 10
+    deployments:
+      - name: gpt-4.1-mini
+        model:
+          format: OpenAI
+          name: gpt-4.1-mini
+          version: '2025-04-14'
+        sku:
+          name: GlobalStandard
+          capacity: 10
   sequential-agent:
     host: azure.ai.agent
     project: src/sequential-agent
     language: python
     uses:
       - ai-project
-    config:
-      kind: hosted
-      name: sequential-agent
-      description: Pipeline secuencial redactor, revisor, editor
-      codeConfiguration:
-        runtime: python_3_13
-        entryPoint: main.py
-      protocols:
-        - protocol: responses
-          version: 2.0.0
-      env:
-        PYTHONNOUSERSITE: "1"
-        AZURE_AI_MODEL_DEPLOYMENT_NAME: ${AZURE_AI_MODEL_DEPLOYMENT_NAME}
-        CHAT_CLIENT: foundry
-      container:
-        resources:
-          cpu: '0.5'
-          memory: 1Gi
+    kind: hosted
+    name: sequential-agent
+    description: Pipeline secuencial redactor, revisor, editor
+    codeConfiguration:
+      runtime: python_3_13
+      entryPoint: main.py
+      dependencyResolution: remote_build
+    protocols:
+      - protocol: responses
+        version: 2.0.0
+    environmentVariables:
+      - name: PYTHONNOUSERSITE
+        value: "1"
+      - name: AZURE_AI_MODEL_DEPLOYMENT_NAME
+        value: ${AZURE_AI_MODEL_DEPLOYMENT_NAME}
+      - name: CHAT_CLIENT
+        value: foundry
+    container:
+      resources:
+        cpu: '0.5'
+        memory: 1Gi
 infra:
   provider: microsoft.foundry

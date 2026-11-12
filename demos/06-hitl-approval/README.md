@@ -44,7 +44,7 @@ curl -s http://localhost:8088/responses -H "Content-Type: application/json" -d '
 
 ## Desplegar en Foundry (hosted agent)
 
-El workflow se expone como agente con `workflow.as_agent()` y `ResponsesHostServer` (`main.py`). Incluye `Dockerfile`, `azure.yaml` y `AGENTS.md`. Estos comandos requieren credenciales y **no se ejecutaron** en este repo:
+El workflow se expone como agente con `workflow.as_agent()` y `ResponsesHostServer` (`main.py`). Incluye `Dockerfile`, `azure.yaml` y `AGENTS.md`. Estos comandos requieren una suscripción de Azure con cuota para el modelo (ver README raíz, «Estado de verificación»):
 
 ```powershell
 cd demos/06-hitl-approval
@@ -75,7 +75,7 @@ Guía oficial: <https://learn.microsoft.com/azure/foundry/agents/how-to/add-huma
 | Host Responses, `function_call` → `function_call_output` | Sí (`python main.py`, puerto 8088) | - |
 | Checkpoint/estado durable entre reinicios del contenedor | Parcial (disco local) | Sí: almacenamiento del host en Foundry |
 | Modelo real, identidad administrada, trazas | No | Sí |
-| `azd provision` / `azd deploy` | No ejecutado | Sí |
+| `azd provision` / `azd deploy` | Verificado | Sí |
 
 ## Notas
 
